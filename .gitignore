@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment variables / secrets
+.env
+.env.*
+*.key
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (avoid committing large/raw datasets)
+data/raw/
+data/interim/
+*.csv
+*.parquet
+*.db
+*.sqlite
+
+# IDE / OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
