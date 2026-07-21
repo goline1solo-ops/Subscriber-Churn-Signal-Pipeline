@@ -1,23 +1,29 @@
-# Subset - ETL - AI Project
+# Subscriber Churn Signal Pipeline
 
-Interview prep project: a small ETL pipeline with an AI-assisted component.
+A containerized ELT pipeline with an AI enrichment step: synthetic subscriber
+events + support-ticket text are extracted, scored for churn risk by an LLM,
+loaded into Postgres, and modeled with dbt into a subscriber-risk table.
 
 ## Structure
 
-- `extract/` — pulling raw data from source(s)
-- `transform/` — cleaning, reshaping, enriching data
-- `load/` — writing processed data to its destination
-- `tests/` — unit/integration tests
-- `data/` — local data (raw/interim ignored by git, see `.gitignore`)
+- `python/` — generates synthetic subscriber data, scores support-ticket
+  text for churn risk via an LLM, loads into Postgres (`extract_load.py`)
+- `dbt/` — models staging data into `subscriber_risk_model` (risk tiers,
+  at-risk flags)
+- `docker-compose.yml` — wires up python, postgres, and dbt as one stack
 
 ## Setup
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
+cp .env.example .env   # fill in real values
+docker-compose up -d
+docker-compose logs -f
 ```
 
-## Usage
+Then connect to the Postgres container (`psql` or DBeaver) to inspect the
+final `subscriber_risk_model` table.
 
-TODO
+## Status
+
+Scaffold only — see `churn_signal_pipeline_project.md` for the full build
+plan and current step.

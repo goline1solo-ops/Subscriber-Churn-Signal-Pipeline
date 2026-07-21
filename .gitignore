@@ -15,6 +15,7 @@ ENV/
 # Environment variables / secrets
 .env
 .env.*
+!.env.example
 *.key
 
 # Jupyter
@@ -35,3 +36,14 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Interview prep notes (not part of the actual project)
+churn_signal_pipeline_project.md
+
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# Postgres data volume (if bind-mounted)
+pgdata/

@@ -1,0 +1,11 @@
+name: "churn_signal_pipeline"
+version: "1.0.0"
+config-version: 2
+
+profile: "churn_signal_pipeline"
+
+model-paths: ["models"]
+
+models:
+  churn_signal_pipeline:
+    +materialized: table
