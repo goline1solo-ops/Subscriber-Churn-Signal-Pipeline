@@ -1,4 +1,11 @@
-churn_signal_pipeline:
+# PATTERN: the connection-info-outside-the-project split, same idea as
+# .env vs .env.example - the shape of this file is committed, the actual
+# secret VALUES are resolved from environment variables at runtime via
+# env_var(), never hardcoded here. See GUIDE.md.
+#
+# Top-level key below MUST match `profile:` in dbt_project.yml exactly.
+
+app_transform:
   target: dev
   outputs:
     dev:
@@ -10,3 +17,12 @@ churn_signal_pipeline:
       dbname: "{{ env_var('POSTGRES_DB') }}"
       schema: public
       threads: 4
+
+    # Example second target for a BigQuery variant - type/fields change
+    # completely, since BigQuery has no server/port/password at all.
+    # prod:
+    #   type: bigquery
+    #   method: oauth
+    #   project: your-gcp-project-id
+    #   dataset: your_dataset
+    #   threads: 4

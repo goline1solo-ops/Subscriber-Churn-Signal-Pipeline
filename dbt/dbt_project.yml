@@ -1,11 +1,11 @@
-name: "churn_signal_pipeline"
+name: "app_transform"
 version: "1.0.0"
 config-version: 2
 
-profile: "churn_signal_pipeline"
+profile: "app_transform"
 
 model-paths: ["models"]
 
 models:
-  churn_signal_pipeline:
+  app_transform:
     +materialized: table

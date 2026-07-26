@@ -1,7 +1,12 @@
+# PATTERN: never reference a raw table by its bare name in a model - always
+# route through source(), so dbt can (a) build its dependency graph
+# automatically and (b) give you one place to update if the raw table ever
+# moves/renames. See GUIDE.md.
+
 version: 2
 
 sources:
-  - name: staging
+  - name: staging          # made-up alias, used in {{ source('staging', ...) }}
     schema: public
     tables:
-      - name: staging_subscriber_events
+      - name: staging_events   # TODO: your real raw table name

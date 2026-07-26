@@ -1,9 +1,11 @@
-version: "3.9"
+# PATTERN: postgres + python + dbt, one shared private network.
+# See GUIDE.md before touching this file if any of it is unfamiliar -
+# especially the "networks" section, which is the #1 recurring gotcha.
 
 services:
   postgres:
     image: postgres:16
-    container_name: churn_postgres
+    container_name: app_postgres
     restart: unless-stopped
     env_file: .env
     environment:
@@ -14,36 +16,38 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    # Waits until Postgres can actually accept connections (not just "started")
+    # before python/dbt are allowed to start - see depends_on below.
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 10
     networks:
-      - churn_net
+      - app_net
 
   python:
     build: ./python
-    container_name: churn_python
+    container_name: app_python
     env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - churn_net
+      - app_net
 
   dbt:
     build: ./dbt
-    container_name: churn_dbt
+    container_name: app_dbt
     env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - churn_net
+      - app_net
 
 networks:
-  churn_net:
+  app_net:
 
 volumes:
   pgdata:

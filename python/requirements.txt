@@ -1,8 +1,10 @@
-kagglehub
-pandas
 psycopg2-binary
 sqlalchemy
 python-dotenv
 requests
-google-cloud-bigquery
-scikit-learn
+
+# Uncomment as needed for a given project:
+# pandas
+# scikit-learn
+# kagglehub
+# google-cloud-bigquery

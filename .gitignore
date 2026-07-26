@@ -37,7 +37,9 @@ Thumbs.db
 # Logs
 *.log
 
-# Interview prep notes (not part of the actual project)
+# Personal project notes / prep docs (not part of the shipped project)
+PROJECT_NOTES.md
+*.local.md
 churn_signal_pipeline_project.md
 
 # dbt
