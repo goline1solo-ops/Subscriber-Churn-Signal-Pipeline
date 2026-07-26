@@ -112,7 +112,28 @@ both ways at once.
 
 ---
 
-## 5. Postgres, recap (+ T-SQL cheat sheet)
+## 5. Docker Compose command reference
+
+| Command | What it does |
+|---|---|
+| `docker-compose up -d` | Start every service in the background |
+| `docker-compose up -d --build` | Rebuild images first (needed after code/Dockerfile changes), then start |
+| `docker-compose up -d <service>` | Start just one service (e.g. `postgres`) |
+| `docker-compose run --rm <service> <command>` | One-off: fresh temporary container from that service's image, runs `<command>` instead of its default `CMD`, removes itself after |
+| `docker-compose logs -f <service>` | Follow that service's logs live (`Ctrl+C` to stop watching - doesn't stop the container) |
+| `docker-compose ps` | List this project's containers and their status |
+| `docker-compose stop` | Pause containers, keep them (and the network) around - resume with `docker-compose start` |
+| `docker-compose down` | Stop **and remove** containers + network. Data survives (it's in the named volume) |
+| `docker-compose down -v` | Same as `down`, **plus deletes volumes** - this is the one that actually wipes Postgres data. Only reach for it deliberately |
+
+**Rule of thumb for day-to-day use**: `up -d` to start, `logs -f <service>`
+to watch something run, `down` when you're done for the session (safe -
+your data's still in the volume next time), `down -v` only when you
+genuinely want a clean slate.
+
+---
+
+## 6. Postgres, recap (+ T-SQL cheat sheet)
 
 Postgres is a **server** your code connects to as a **client** - not a
 library you `import`. That's why a connection needs host/port/user/password
@@ -156,7 +177,7 @@ whatever columns get joined/filtered on most."
 
 ---
 
-## 6. dbt, recap
+## 7. dbt, recap
 
 A dbt **model** is just a `.sql` file containing **one `SELECT` statement**
 - nothing to do with machine learning. dbt runs it and materializes the
@@ -185,7 +206,7 @@ temp tables/multiple `CREATE`s inside a model - use **CTEs** (`WITH name AS
 
 ---
 
-## 7. The AI-enrichment step, and the mistake to avoid
+## 8. The AI-enrichment step, and the mistake to avoid
 
 Calling an LLM (Ollama locally, or a cloud API) to turn unstructured text
 into a structured signal (a score, a label) is the piece that makes this
@@ -218,7 +239,7 @@ neither alone is the full picture.
 
 ---
 
-## 8. If a step swaps Postgres for BigQuery
+## 9. If a step swaps Postgres for BigQuery
 
 BigQuery isn't "Postgres, but managed" - there's no server to connect to at
 all. It's reached entirely through Google's API, authenticated by identity
@@ -248,7 +269,7 @@ all. It's reached entirely through Google's API, authenticated by identity
 
 ---
 
-## 9. DBeaver quick reference
+## 10. DBeaver quick reference
 
 - **Connect**: New Database Connection -> PostgreSQL -> host `localhost`,
   port `5432`, plus your `.env` values. First connection prompts to
@@ -263,7 +284,7 @@ all. It's reached entirely through Google's API, authenticated by identity
 
 ---
 
-## 10. Coming back after months away - the actual checklist
+## 11. Coming back after months away - the actual checklist
 
 1. Open **Docker Desktop**, wait for it to fully start.
 2. `docker ps -a` - see what's already there from last time.
@@ -282,7 +303,7 @@ all. It's reached entirely through Google's API, authenticated by identity
 
 ---
 
-## 11. Glossary - fast recall
+## 12. Glossary - fast recall
 
 - **Container vs. image** - image = frozen recipe; container = a running
   instance of it.
