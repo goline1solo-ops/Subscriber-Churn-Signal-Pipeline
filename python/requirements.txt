@@ -1,6 +1,8 @@
-faker
+kagglehub
+pandas
 psycopg2-binary
 sqlalchemy
 python-dotenv
 requests
 google-cloud-bigquery
+scikit-learn
