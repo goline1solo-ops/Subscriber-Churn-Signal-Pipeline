@@ -114,6 +114,20 @@ both ways at once.
 
 ## 5. Docker Compose command reference
 
+**`docker` vs. `docker-compose` - why the compose prefix matters**: plain
+`docker` commands (`docker stop <name>`, `docker rm <name>`) act on **one
+container at a time**, identified by its `container_name` or ID - stopping
+all three services this way means three separate commands. `docker-compose`
+reads `docker-compose.yml` and treats every service defined in it as **one
+group** - `docker-compose stop` (or `up`, `down`) acts on all of them
+together in one command, addressed by **service name**, not
+`container_name`. `docker-compose down` also tears down the shared network
+(`app_net`) it created - plain `docker stop` has no concept of that at all,
+since networks aren't containers. Rule of thumb: use `docker-compose ...`
+for anything affecting the whole stack; drop to plain `docker exec`/`docker
+logs <container_name>` when you want to reach into one specific container
+directly (e.g. `docker exec app_postgres psql ...`).
+
 | Command | What it does |
 |---|---|
 | `docker-compose up -d` | Start every service in the background |
